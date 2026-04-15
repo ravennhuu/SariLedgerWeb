@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react';
 import { Users, Search, Contact, FileText, CheckCircle2, ChevronRight, X, Plus } from 'lucide-react';
 import { doc, updateDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../lib/firebase';
-import { useSariData } from '../hooks/useSariData';
+import { db } from '../../lib/firebase';
+import { useSariData } from '../../hooks/useSariData';
 
 function peso(n) {
   return '₱' + Number(n).toLocaleString('en-PH', {
