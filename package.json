@@ -1,5 +1,15 @@
 {
+  "name": "sariledger-web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
   "dependencies": {
-    "@tailwindcss/postcss": "^4.2.2"
+    "@tailwindcss/postcss": "^4.2.2",
+    "vite": "^6.0.0"
   }
 }
