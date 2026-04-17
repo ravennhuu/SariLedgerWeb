@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
-import { ScrollText, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
+import { ScrollText, ArrowUpRight, ArrowDownLeft, Trash2 } from 'lucide-react';
+import { doc, deleteDoc } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 import { useSariData } from '../hooks/useSariData';
 
 function peso(n) {
@@ -25,6 +27,19 @@ const STATUS_TABS = ['all', 'paid', 'unpaid'];
 export default function Ledger() {
   const { transactions, customers, items, loading } = useSariData();
   const [tab, setTab] = useState('all');
+  const [deletingId, setDeletingId] = useState(null);
+
+  async function handleDelete(id) {
+    if (!window.confirm('Are you sure you want to delete this transaction?')) return;
+    setDeletingId(id);
+    try {
+      await deleteDoc(doc(db, 'transactions', id));
+    } catch (e) {
+      console.error('[Ledger] failed to delete transaction:', e);
+    } finally {
+      setDeletingId(null);
+    }
+  }
 
   const customerMap = useMemo(() =>
     Object.fromEntries(customers.map((c) => [c.id, c.name])),
@@ -184,6 +199,16 @@ export default function Ledger() {
                   >
                     {peso(total)}
                   </p>
+
+                  {/* Options (Delete) */}
+                  <button
+                    onClick={() => handleDelete(tx.id)}
+                    disabled={deletingId === tx.id}
+                    className="ml-2 flex flex-shrink-0 h-8 w-8 items-center justify-center rounded-lg text-muted hover:bg-coral/10 hover:text-coral transition-colors disabled:opacity-50"
+                    title="Delete transaction"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
                 </li>
               );
             })}
