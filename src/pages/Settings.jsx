@@ -1,5 +1,5 @@
 import { Sun, Moon, Monitor } from 'lucide-react';
-import { useTheme } from '../sari-ledger-web/src/hooks/useTheme';
+import { useTheme } from '../hooks/useTheme';
 
 export default function Settings() {
   const { theme, setTheme } = useTheme();

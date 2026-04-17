@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { TrendingUp, Users, AlertTriangle, ArrowUpRight, ShoppingBag } from 'lucide-react';
-import { useSariData } from '../sari-ledger-web/src/hooks/useSariData';
+import { useSariData } from '../hooks/useSariData';
 function peso(n) {
   return '₱' + Number(n).toLocaleString('en-PH', {
     minimumFractionDigits: 2, maximumFractionDigits: 2,

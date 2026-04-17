@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { collection, onSnapshot } from 'firebase/firestore';
-import { db } from '../../../lib/firebase';
+import { db } from '../../lib/firebase';
 
 function processNotes(raw) {
   if (!raw) return '';
