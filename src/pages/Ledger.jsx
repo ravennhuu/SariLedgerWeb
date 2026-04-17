@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { ScrollText, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
-import { useSariData } from '../../hooks/useSariData';
+import { useSariData } from '../hooks/useSariData';
 
 function peso(n) {
   return '₱' + Number(n).toLocaleString('en-PH', {
