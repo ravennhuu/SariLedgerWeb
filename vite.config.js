@@ -8,7 +8,7 @@ export default defineConfig({
     tailwindcss(),
   ],
   build: {
-    outDir: 'public',
+    outDir: 'dist',
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
