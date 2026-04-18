@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { NavLink, useLocation } from "react-router-dom";
-import { LayoutDashboard, ScrollText, Boxes, Settings, AlertCircle, Users, Menu, X } from "lucide-react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { LayoutDashboard, ScrollText, Boxes, Settings, AlertCircle, Users, Menu, X, LogOut } from "lucide-react";
 import { useSariData } from "../hooks/useSariData";
+import { useAuth } from '../context/AuthContext';
 
 const navItems = [
   { label: "Dashboard", to: "/", icon: LayoutDashboard },
@@ -13,8 +14,19 @@ const navItems = [
 
 function Layout({ children }) {
   const { items } = useSariData();
+  const { logout, currentUser } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/login');
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
 
   useEffect(() => {
     setSidebarOpen(false);
@@ -89,6 +101,16 @@ function Layout({ children }) {
             </p>
           </div>
         )}
+
+        <div className="mt-auto pt-4 border-t border-line/60">
+          <button
+            onClick={handleLogout}
+            className="group flex w-full items-center gap-3 rounded-[10px] px-3 py-2.5 text-sm font-medium text-muted hover:bg-coral/5 hover:text-coral transition-all duration-150"
+          >
+            <LogOut className="h-4 w-4 shrink-0" strokeWidth={1.75} />
+            <span>Logout</span>
+          </button>
+        </div>
       </aside>
 
       <div className="flex min-h-screen flex-1 flex-col md:ml-60 min-w-0">
@@ -104,10 +126,12 @@ function Layout({ children }) {
           </div>
           <div className="flex items-center gap-2.5">
             <div className="hidden sm:block text-right leading-tight">
-              <p className="text-xs font-medium text-ink">Store Owner</p>
+              <p className="text-xs font-medium text-ink">{currentUser?.email?.split('@')[0] || 'Store Owner'}</p>
               <p className="text-[11px] text-muted">Admin</p>
             </div>
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald text-[11px] font-bold text-white ring-2 ring-emerald/20">SA</div>
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald text-[11px] font-bold text-white ring-2 ring-emerald/20 uppercase">
+              {currentUser?.email?.[0] || 'A'}
+            </div>
           </div>
         </header>
         <main className="flex-1 px-4 sm:px-8 py-5 sm:py-7 overflow-x-hidden min-w-0">

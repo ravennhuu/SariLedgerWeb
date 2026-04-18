@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { ScrollText, ArrowUpRight, ArrowDownLeft, Trash2 } from 'lucide-react';
 import { doc, deleteDoc } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { db } from '../lib/firebase';
 import { useSariData } from '../hooks/useSariData';
 
 function peso(n) {

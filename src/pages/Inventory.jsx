@@ -6,7 +6,7 @@ import {
 import {
   collection, doc, updateDoc, addDoc, serverTimestamp,
 } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { db } from '../lib/firebase';
 import { useSariData } from '../hooks/useSariData';
 
 function peso(n) {

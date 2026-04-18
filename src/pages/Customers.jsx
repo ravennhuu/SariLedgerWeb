@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Users, Search, Contact, FileText, CheckCircle2, ChevronRight, X, Plus, Trash2 } from 'lucide-react';
 import { doc, updateDoc, collection, addDoc, serverTimestamp, deleteDoc } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { db } from '../lib/firebase';
 import { useSariData } from '../hooks/useSariData';
 
 function peso(n) {
