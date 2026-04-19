@@ -180,10 +180,7 @@ export default function Customers() {
     const result = [...customers].filter((c) => {
       const name = c.name.toLowerCase();
       const contact = (c.contact || '').toLowerCase();
-      if (q.length === 1) {
-        return name.startsWith(q) || contact.startsWith(q);
-      }
-      return name.includes(q) || contact.includes(q);
+      return name.startsWith(q) || contact.startsWith(q);
     });
 
     return result.sort((a, b) => {

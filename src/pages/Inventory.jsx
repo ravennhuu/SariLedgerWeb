@@ -236,10 +236,7 @@ export default function Inventory() {
     let result = [...items];
 
     if (q) {
-      result = result.filter((item) => {
-        const name = item.name.toLowerCase();
-        return q.length === 1 ? name.startsWith(q) : name.includes(q);
-      });
+      result = result.filter((item) => item.name.toLowerCase().startsWith(q));
     }
 
     result.sort((a, b) => {
