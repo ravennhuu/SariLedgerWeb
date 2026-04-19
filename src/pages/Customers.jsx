@@ -176,15 +176,31 @@ export default function Customers() {
   }
 
   const filtered = useMemo(() => {
-    const q = search.toLowerCase();
-    return [...customers]
-      .filter((c) => c.name.toLowerCase().includes(q) || (c.contact || '').toLowerCase().includes(q))
-      .sort((a, b) => {
-        const aDebt = Math.max(0, a.totalDebt || 0);
-        const bDebt = Math.max(0, b.totalDebt || 0);
-        if (bDebt !== aDebt) return bDebt - aDebt;
-        return a.name.localeCompare(b.name);
-      });
+    const q = search.trim().toLowerCase();
+    const result = [...customers].filter((c) => {
+      const name = c.name.toLowerCase();
+      const contact = (c.contact || '').toLowerCase();
+      if (q.length === 1) {
+        return name.startsWith(q) || contact.startsWith(q);
+      }
+      return name.includes(q) || contact.includes(q);
+    });
+
+    return result.sort((a, b) => {
+      // 1. Relevance: prioritize items starting with the query (name or contact)
+      if (q) {
+        const aStarts = a.name.toLowerCase().startsWith(q) || (a.contact || '').toLowerCase().startsWith(q);
+        const bStarts = b.name.toLowerCase().startsWith(q) || (b.contact || '').toLowerCase().startsWith(q);
+        if (aStarts && !bStarts) return -1;
+        if (!aStarts && bStarts) return 1;
+      }
+
+      // 2. Secondary Sort: Outstanding debt first, then name
+      const aDebt = Math.max(0, a.totalDebt || 0);
+      const bDebt = Math.max(0, b.totalDebt || 0);
+      if (bDebt !== aDebt) return bDebt - aDebt;
+      return a.name.localeCompare(b.name);
+    });
   }, [customers, search]);
 
   return (

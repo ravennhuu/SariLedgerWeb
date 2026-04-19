@@ -232,13 +232,26 @@ export default function Inventory() {
   const [showModal, setShowModal] = useState(false);
 
   const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
     let result = [...items];
 
-    if (search) {
-      const q = search.toLowerCase();
-      result = result.filter((item) => item.name.toLowerCase().includes(q));
+    if (q) {
+      result = result.filter((item) => {
+        const name = item.name.toLowerCase();
+        return q.length === 1 ? name.startsWith(q) : name.includes(q);
+      });
     }
+
     result.sort((a, b) => {
+      // 1. Relevance: prioritize items starting with the query
+      if (q) {
+        const aStarts = a.name.toLowerCase().startsWith(q);
+        const bStarts = b.name.toLowerCase().startsWith(q);
+        if (aStarts && !bStarts) return -1;
+        if (!aStarts && bStarts) return 1;
+      }
+
+      // 2. Secondary Sort: apply chosen sortBy
       switch (sortBy) {
         case 'name-asc': return a.name.localeCompare(b.name);
         case 'name-desc': return b.name.localeCompare(a.name);
